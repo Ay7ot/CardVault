@@ -4,6 +4,9 @@ import { Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "re
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
+import { supabase } from "../utils/supabase";
+import { useGeneralAppContext } from "../utils/useGeneralAppContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Signup({ navigation }) {
 
@@ -13,9 +16,13 @@ export default function Signup({ navigation }) {
         Poppins_500Medium
     })
 
+    const [loading, setLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
-
+    const [error, setError] = useState({
+        type: '',
+        message: ''
+    })
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -23,14 +30,72 @@ export default function Signup({ navigation }) {
     })
 
     const { email, password, passwordConfirm } = userInfo
-
-    function editUserInfo(name, value) {
-        setUserInfo(prevInfo => ({ ...prevInfo, [name]: value }))
-    }
+    const { generalDispatch } = useGeneralAppContext()
 
     async function signupUser() {
+        // Regular expression for validating an Email
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-        navigation.navigate('Onboarding1')
+        if (email === '') {
+            setError({
+                type: 'Error',
+                message: 'Email cannot be empty'
+            })
+        } else if (password === '') {
+            setError({
+                type: 'Error',
+                message: 'Password cannot be empty'
+            })
+        } else if (password !== passwordConfirm) {
+            setError({
+                type: 'Error',
+                message: 'Passwords do not match'
+            })
+        } else if (!emailRegex.test(email)) {
+            setError({
+                type: 'Error',
+                message: 'Enter a valid email'
+            })
+        } else {
+            try {
+                setLoading(true)
+                let { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                })
+                console.log(data, error)
+                if (error) {
+                    setError({
+                        type: 'Error',
+                        message: error.message
+                    })
+                } else {
+                    generalDispatch({
+                        type: 'setUserSession',
+                        payload: {
+                            sessionPayload: data.session.access_token
+                        }
+                    })
+                    generalDispatch({
+                        type: 'setUser',
+                        payload: {
+                            userPayload: data.user
+                        }
+                    })
+
+                    await AsyncStorage.setItem('user', JSON.stringify(data.user));
+                    navigation.navigate('Onboarding1')
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        setTimeout(() => {
+            setError({ type: '', message: '' })
+        }, 5000)
     }
 
     if (!fontsLoaded && !fontsError) {
@@ -56,7 +121,7 @@ export default function Signup({ navigation }) {
                                 placeholder="Enter your email address"
                                 value={email}
                                 style={{ fontFamily: 'Poppins_400Regular' }}
-                                onChange={text => editUserInfo('email', text)}
+                                onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, email: text }))}
                                 keyboardType="email-address"
                                 className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'
                             />
@@ -67,7 +132,7 @@ export default function Signup({ navigation }) {
                                 <TextInput
                                     placeholder="Enter your password"
                                     value={password}
-                                    onChange={text => editUserInfo('password', text)}
+                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, password: text }))}
                                     secureTextEntry={showPassword ? false : true}
                                     style={{ fontFamily: 'Poppins_400Regular' }}
                                     className='flex-1 bg-transparent'
@@ -85,8 +150,8 @@ export default function Signup({ navigation }) {
                             <View className='flex flex-row items-center  rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'>
                                 <TextInput
                                     placeholder="Re-enter your password"
-                                    value={password}
-                                    onChange={text => editUserInfo('passwordConfirm', text)}
+                                    value={passwordConfirm}
+                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, passwordConfirm: text }))}
                                     secureTextEntry={showPasswordConfirm ? false : true}
                                     style={{ fontFamily: 'Poppins_400Regular' }}
                                     className='flex-1 bg-transparent'
@@ -99,14 +164,17 @@ export default function Signup({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        <View className={`w-full p-3 rounded-md mt-8 border-[1px] border-[#b2afaf] bg-red-400 ${error.message === '' ? 'hidden' : ''}`}>
+                            <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>{error.message}</Text>
+                        </View>
                     </View>
                     <View className='mt-20'>
-                        <TouchableOpacity className='mt-12 w-full' onPress={signupUser}>
+                        <TouchableOpacity className='mt-12 w-full' disabled={loading} onPress={signupUser}>
                             <View className='bg-[#4169E1] py-[18px] flex items-center rounded-xl'>
                                 <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#ffffff] text-sm'>Sign Up</Text>
                             </View>
                         </TouchableOpacity>
-                        <View className='flex flex-row justify-between items-center py-8 gap-4'>
+                        {/* <View className='flex flex-row justify-between items-center py-8 gap-4'>
                             <View className='flex-1 border-b-[1px] border-[#a7a9ab]'></View>
                             <Text className='text-[#a7a9ab]'>OR</Text>
                             <View className='flex-1 border-b-[1px] border-[#a7a9ab]'></View>
@@ -118,7 +186,7 @@ export default function Signup({ navigation }) {
                                 />
                                 <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#1C1C1C] ml-2 text-sm'>Continue with Google</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <View className='flex flex-row items-center gap-1 justify-center mt-10'>
                         <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>Already have an account?</Text>
