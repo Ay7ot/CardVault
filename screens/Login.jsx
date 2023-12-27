@@ -1,6 +1,6 @@
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium } from "@expo-google-fonts/poppins";
 import { useState } from "react";
-import { Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
@@ -53,51 +53,59 @@ export default function Login({ navigation }) {
             })
         } else {
             try {
-                setLoading(true)
+                setLoading(true);
                 let { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
-                    password: password
-                })
+                    password: password,
+                });
 
-                console.log(data, error)
+                console.log(data, error);
                 if (error) {
                     setError({
                         type: 'Error',
-                        message: error.message
-                    })
+                        message: error.message,
+                    });
                 } else {
                     generalDispatch({
                         type: 'setUserSession',
                         payload: {
-                            sessionPayload: data.session.access_token
-                        }
-                    })
+                            sessionPayload: data.session,
+                        },
+                    });
                     generalDispatch({
                         type: 'setUser',
                         payload: {
-                            userPayload: data.user
-                        }
-                    })
+                            userPayload: data.user,
+                        },
+                    });
+                    generalDispatch({
+                        type: 'setIsNewUser',
+                        payload: {
+                            isNewUserPayload: false,
+                        },
+                    });
 
                     await AsyncStorage.setItem('user', JSON.stringify(data.user));
-                    navigation.navigate('Dashboard')
+
+                    // Wait for AsyncStorage to complete before navigating
+                    await AsyncStorage.setItem('user', JSON.stringify(data.user));
+                    // navigation.navigate('Dashboard');
                 }
             } catch (error) {
-                console.error(error)
+                console.error(error);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
 
-        setTimeout(() => {
-            setError({ type: '', message: '' })
-        }, 5000)
+            setTimeout(() => {
+                setError({ type: '', message: '' });
+            }, 3000);
+        }
     }
 
     if (!fontsLoaded && !fontsError) {
         return null;
     }
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -120,21 +128,21 @@ export default function Login({ navigation }) {
                                 style={{ fontFamily: 'Poppins_400Regular' }}
                                 onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, email: text }))}
                                 keyboardType="email-address"
-                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'
+                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#000000]'
                             />
                         </View>
                         <View className='mt-8 '>
                             <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Password</Text>
-                            <View className='flex flex-row items-center  rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'>
+                            <View className='flex flex-row items-center relative'>
                                 <TextInput
                                     placeholder="Enter your password"
                                     value={password}
                                     onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, password: text }))}
                                     secureTextEntry={showPassword ? false : true}
                                     style={{ fontFamily: 'Poppins_400Regular' }}
-                                    className='flex-1 bg-transparent'
+                                    className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
                                 />
-                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-4 bottom-3'>
                                     <FaIcon
                                         name={showPassword ? 'eye' : 'eye-slash'}
                                         size={20}
@@ -154,7 +162,10 @@ export default function Login({ navigation }) {
                     <View className='mt-20'>
                         <TouchableOpacity className='mt-12 w-full' onPress={handleLogin} disabled={loading}>
                             <View className='bg-[#4169E1] py-[18px] flex items-center rounded-xl'>
-                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#ffffff] text-sm'>Login</Text>
+                                {loading ?
+                                    <ActivityIndicator size="small" color="#ffffff" /> :
+                                    <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#ffffff] text-sm'>Login</Text>
+                                }
                             </View>
                         </TouchableOpacity>
                         {/* <View className='flex flex-row justify-between items-center py-8 gap-4'>

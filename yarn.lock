@@ -2008,6 +2008,11 @@
   dependencies:
     nanoid "^3.1.23"
 
+"@remix-run/router@1.14.1":
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.14.1.tgz#6d2dd03d52e604279c38911afc1079d58c50a755"
+  integrity sha512-Qg4DMQsfPNAs88rb2xkdk03N3bjK4jgX5fR24eHCTR9q6PrhZQZ4UJBPzCHJkIpTRN1UKxx2DzjZmnC+7Lj0Ow==
+
 "@segment/loosely-validate-event@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@segment/loosely-validate-event/-/loosely-validate-event-2.0.0.tgz#87dfc979e5b4e7b82c5f1d8b722dfd5d77644681"
@@ -2384,6 +2389,11 @@
   integrity sha512-xQ67Yc/laOG5uMfX/093MRlGGCIBzZMarVa+gfNKJxWAIgykYpVGkBdbqEzGDDfCrVUj6Hiff4mTZ5BA6TmAog==
   dependencies:
     "@types/yargs-parser" "*"
+
+"@ungap/url-search-params@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.2.2.tgz#2de3bdec21476a9b70ef11fd7b794752f9afa04c"
+  integrity sha512-qQsguKXZVKdCixOHX9jqnX/K/1HekPDpGKyEcXHT+zR6EjGA7S4boSuelL4uuPv6YfhN0n8c4UxW+v/Z3gM2iw==
 
 "@urql/core@2.3.6":
   version "2.3.6"
@@ -7363,6 +7373,11 @@ react-native-elements@^3.4.3:
     react-native-ratings "8.0.4"
     react-native-size-matters "^0.3.1"
 
+react-native-loading-spinner-overlay@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-3.0.1.tgz#092481b8cce157d3af5ef942f845ad981f96bd36"
+  integrity sha512-4GdR54HQnKg2HPSSisVizfTLuyhSh4splY9eb8mKiYF1Ihjn/5EmdNo5bN3S7uKPFRC3WLzIZIouX6G6fXfnjw==
+
 react-native-ratings@8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-8.0.4.tgz#efd5ebad8acc08bf98d34d39b18fb7a6813ef991"
@@ -7463,6 +7478,21 @@ react-refresh@^0.4.0:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
+
+react-router-native@^6.21.1:
+  version "6.21.1"
+  resolved "https://registry.yarnpkg.com/react-router-native/-/react-router-native-6.21.1.tgz#cee91fdf4468ee70f9cf8ab65e3563bc7e5f00e7"
+  integrity sha512-C0X3GIWsAsNdcdjdCVLG6QSLk4ydZiVevPMeIPLafgHiCvuPuKbGKZrAaRh6u4nXDTEX+a3LXRHpsX7/K0eNaA==
+  dependencies:
+    "@ungap/url-search-params" "^0.2.2"
+    react-router "6.21.1"
+
+react-router@6.21.1:
+  version "6.21.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.21.1.tgz#8db7ee8d7cfc36513c9a66b44e0897208c33be34"
+  integrity sha512-W0l13YlMTm1YrpVIOpjCADJqEUpz1vm+CMo47RuFX4Ftegwm6KOYsL5G3eiE52jnJpKvzm6uB/vTKTPKM8dmkA==
+  dependencies:
+    "@remix-run/router" "1.14.1"
 
 react-shallow-renderer@^16.15.0:
   version "16.15.0"

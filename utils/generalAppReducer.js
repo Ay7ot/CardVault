@@ -10,6 +10,11 @@ export function generalAppReducer(state, action) {
         ...state,
         user: action.payload.userPayload,
       };
+    case "setIsNewUser":
+      return {
+        ...state,
+        isNewUser: action.payload.isNewUserPayload,
+      };
     default:
       return state;
   }

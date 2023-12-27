@@ -73,7 +73,7 @@ export default function Signup({ navigation }) {
                     generalDispatch({
                         type: 'setUserSession',
                         payload: {
-                            sessionPayload: data.session.access_token
+                            sessionPayload: data.session
                         }
                     })
                     generalDispatch({
@@ -82,7 +82,12 @@ export default function Signup({ navigation }) {
                             userPayload: data.user
                         }
                     })
-
+                    generalDispatch({
+                        type: 'setIsNewUser',
+                        payload: {
+                            isNewUserPayload: true,
+                        },
+                    });
                     await AsyncStorage.setItem('user', JSON.stringify(data.user));
                     navigation.navigate('Onboarding1')
                 }
@@ -123,21 +128,21 @@ export default function Signup({ navigation }) {
                                 style={{ fontFamily: 'Poppins_400Regular' }}
                                 onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, email: text }))}
                                 keyboardType="email-address"
-                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'
+                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
                             />
                         </View>
                         <View className='mt-8 '>
                             <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Password</Text>
-                            <View className='flex flex-row items-center  rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'>
+                            <View className='flex flex-row items-center relative'>
                                 <TextInput
                                     placeholder="Enter your password"
                                     value={password}
                                     onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, password: text }))}
                                     secureTextEntry={showPassword ? false : true}
                                     style={{ fontFamily: 'Poppins_400Regular' }}
-                                    className='flex-1 bg-transparent'
+                                    className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
                                 />
-                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-4 bottom-3'>
                                     <FaIcon
                                         name={showPassword ? 'eye' : 'eye-slash'}
                                         size={20}
@@ -147,18 +152,18 @@ export default function Signup({ navigation }) {
                         </View>
                         <View className='mt-8'>
                             <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Confirm Password</Text>
-                            <View className='flex flex-row items-center  rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4'>
+                            <View className='flex flex-row items-center relative'>
                                 <TextInput
-                                    placeholder="Re-enter your password"
+                                    placeholder="Enter your password"
                                     value={passwordConfirm}
                                     onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, passwordConfirm: text }))}
                                     secureTextEntry={showPasswordConfirm ? false : true}
                                     style={{ fontFamily: 'Poppins_400Regular' }}
-                                    className='flex-1 bg-transparent'
+                                    className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
                                 />
-                                <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}>
+                                <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPasswordConfirm)} className='absolute right-4 bottom-3'>
                                     <FaIcon
-                                        name={showPasswordConfirm ? 'eye' : 'eye-slash'}
+                                        name={showPassword ? 'eye' : 'eye-slash'}
                                         size={20}
                                     />
                                 </TouchableOpacity>

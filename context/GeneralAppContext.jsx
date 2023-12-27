@@ -1,13 +1,10 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useGeneralAppContext } from "../utils/useGeneralAppContext";
 import { generalAppReducer } from "../utils/generalAppReducer";
 import { supabase } from "../utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GeneralAppContext } from "./generalAppContextValue";
 
-export const GeneralAppContext = createContext({
-    session: null,
-    user: null,
-});
 
 export function GeneralAppProvider({ children }) {
     const value = useGeneralAppContext();
@@ -22,13 +19,11 @@ export function GeneralAppProvider({ children }) {
                 generalDispatch({
                     type: 'setUserSession',
                     payload: {
-                        sessionPayload: session?.access_token ?? null
+                        sessionPayload: session ?? null
                     },
                 });
                 setLoading(false)
             });
-
-            console.log(authListener)
 
             try {
                 const userInfo = await AsyncStorage.getItem('user');
@@ -54,8 +49,6 @@ export function GeneralAppProvider({ children }) {
         fetchData(); // Invoke the fetchData function
 
     }, []);
-
-    console.log(loading);
 
     // Render children only when loading is false
     return !loading ? (
