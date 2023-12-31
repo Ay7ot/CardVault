@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import LoadPage from "./LoadPage";
-import WelcomePage from "./WelcomePage";
-import Signup from "./Signup";
-import Login from "./Login";
-import ResetPassword from "./ResetPassword";
+import WelcomePage from "./auth/WelcomePage";
+import Signup from "./auth/Signup";
+import Login from "./auth/Login";
+import ResetPassword from "./auth/ResetPassword";
 import Dashboard from "./Dashboard";
-import Onboarding1 from "./Onboarding1";
-import Onboarding2 from "./Onboarding2";
-import Onboarding3 from "./Onboarding3";
+import Onboarding1 from "./onboarding/Onboarding1";
+import Onboarding2 from "./onboarding/Onboarding2";
+import Onboarding3 from "./onboarding/Onboarding3";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useGeneralAppContext } from "../utils/useGeneralAppContext";
@@ -18,7 +18,6 @@ const Stack = createNativeStackNavigator();
 export default function Navigation() {
 
     const { session, user, isNewUser } = useGeneralAppContext()
-
     const [loading, setLoading] = useState(true)
     const [isUserAllowed, setIsUserAllowed] = useState(false)
 
@@ -27,7 +26,6 @@ export default function Navigation() {
         const currentTimestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
         const hasExpired = currentTimestamp >= expirationTime;
-        console.log(currentTimestamp, expirationTime)
 
         async function removeUserInfo() {
             try {
@@ -57,8 +55,6 @@ export default function Navigation() {
 
         getUserInfo()
     }, [session, user])
-
-    console.log(isUserAllowed)
 
     if (loading) {
         return <LoadPage />

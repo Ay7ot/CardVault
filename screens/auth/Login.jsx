@@ -4,8 +4,8 @@ import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, To
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
-import { supabase } from "../utils/supabase";
-import { useGeneralAppContext } from "../utils/useGeneralAppContext";
+import { supabase } from "../../utils/supabase";
+import { useGeneralAppContext } from "../../utils/useGeneralAppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {

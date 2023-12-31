@@ -3,7 +3,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from 'react-native-vector-icons/AntDesign'
 
-export default function Onboarding2({ navigation }) {
+export default function Onboarding3({ navigation }) {
 
     let [fontsLoaded, fontsError] = useFonts({
         Poppins_600SemiBold,
@@ -33,8 +33,8 @@ export default function Onboarding2({ navigation }) {
                 <View>
                     <View className='h-[350px] w-[350px] mt-12 relative rounded-full bg-[#4169E11A]'>
                         <Image
-                            source={require('../assets/image-3.png')}
-                            className='absolute bottom-0 -right-10'
+                            source={require('../../assets/image-4.png')}
+                            className='absolute bottom-10 -left-7'
                         />
                     </View>
                     <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[32px] text-[#1E1E1E] text-center mt-8' >Easy Organization</Text>
@@ -45,11 +45,11 @@ export default function Onboarding2({ navigation }) {
                 <View className='mt-auto flex flex-row items-center justify-between'>
                     <View className='flex flex-row gap-3'>
                         <View className='h-2 w-2 bg-[#C7E1FF] rounded-md'></View>
-                        <View className='h-2 w-6 bg-[#4169E1] rounded-md'></View>
                         <View className='h-2 w-2 bg-[#C7E1FF] rounded-md'></View>
+                        <View className='h-2 w-6 bg-[#4169E1] rounded-md'></View>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Onboarding3')} className='bg-[#4169E1] py-4 px-20 rounded-xl'>
-                        <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#ffffff]'>Next</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Dashboard')} className='bg-[#4169E1] py-4 px-20 rounded-xl'>
+                        <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#ffffff]'>Get Started</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>

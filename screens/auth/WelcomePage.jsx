@@ -19,7 +19,7 @@ export default function WelcomePage({ navigation }) {
             <View className="flex-1 items-center justify-center w-full">
                 <View className='h-[350px] w-[350px] mt-12 relative rounded-full bg-[#4169E11A]'>
                     <Image
-                        source={require('../assets/image-5.png')}
+                        source={require('../../assets/image-5.png')}
                         className='absolute bottom-0 -right-[30px]'
                     />
                 </View>

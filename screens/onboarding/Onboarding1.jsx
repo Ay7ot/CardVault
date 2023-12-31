@@ -33,7 +33,7 @@ export default function Onboarding1({ navigation }) {
                 <View>
                     <View className='h-[350px] w-[350px] mt-12 relative rounded-full bg-[#4169E11A]'>
                         <Image
-                            source={require('../assets/image-2.png')}
+                            source={require('../../assets/image-2.png')}
                             className='absolute -bottom-20 -right-10'
                         />
                     </View>
