@@ -1,7 +1,6 @@
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium } from "@expo-google-fonts/poppins";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Icon from 'react-native-vector-icons/AntDesign'
 
 export default function Onboarding1({ navigation }) {
 
@@ -20,12 +19,7 @@ export default function Onboarding1({ navigation }) {
         <ScrollView>
             <SafeAreaView className='flex-1 min-h-screen flex-col p-6'>
                 <View className='flex flex-row items-center z-[2] justify-between'>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icon
-                            name="arrowleft"
-                            size={24}
-                        />
-                    </TouchableOpacity>
+                    <View></View>
                     <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
                         <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#4169E1] text-[16px]'>Skip</Text>
                     </TouchableOpacity>

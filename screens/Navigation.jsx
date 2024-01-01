@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
-
+ 
     const { session, user, isNewUser } = useGeneralAppContext()
     const [loading, setLoading] = useState(true)
     const [isUserAllowed, setIsUserAllowed] = useState(false)

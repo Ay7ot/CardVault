@@ -37,9 +37,10 @@ export default function Onboarding2({ navigation }) {
                             className='absolute bottom-0 -right-10'
                         />
                     </View>
-                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[32px] text-[#1E1E1E] text-center mt-8' >Easy Organization</Text>
-                    <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-center text-base px-[60px] text-[#1e1e1e] mt-6'>Effortlessly organize your various cards
-                        in one central location.
+                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[32px] text-[#1E1E1E] text-center mt-8' >Quick Access</Text>
+                    <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-center text-base px-[60px] text-[#1e1e1e] mt-6'>
+                        Card Vault makes it easy to retrieve
+                        your information on the go.
                     </Text>
                 </View>
                 <View className='mt-auto flex flex-row items-center justify-between'>

@@ -58,8 +58,7 @@ export default function Login({ navigation }) {
                     email: email,
                     password: password,
                 });
-
-                console.log(data, error);
+                
                 if (error) {
                     setError({
                         type: 'Error',

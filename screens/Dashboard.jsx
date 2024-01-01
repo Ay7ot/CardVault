@@ -1,108 +1,40 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import { supabase } from '../utils/supabase';
-import { useGeneralAppContext } from '../utils/useGeneralAppContext';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Home from './home/Home';
+import Settings from './settings/Settings';
+import Profile from './profile/Profile';
 
-export default function Dashboard({ navigation }) {
+const Tab = createBottomTabNavigator()
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const { generalDispatch } = useGeneralAppContext()
-
-    async function logout() {
-
-        try {
-            let { error } = await supabase.auth.signOut()
-            generalDispatch({
-                type: 'setLoadPageShown',
-                payload: {
-                    loadPageShownPayload: false,
-                },
-            });
-            if (error) {
-                console.log(error)
-            }
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
+export default function Dashboard() {
 
     return (
-        <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={async () => {
-                                setModalVisible(!modalVisible);
-                                await logout();  // Wait for the logout function to complete
-                            }}
-                        >
-                            <Text style={styles.textStyle}>Logout</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
-            <Pressable
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}
-            >
-                <Text style={styles.textStyle}>Show Modal</Text>
-            </Pressable>
-        </View>
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName;
+
+                    if (route.name === 'Home') {
+                        iconName = focused
+                            ? 'home'
+                            : 'home-outline';
+                    } else if (route.name === 'Settings') {
+                        iconName = focused ? 'settings' : 'settings-outline';
+                    } else if (route.name === 'Profile') {
+                        iconName = focused ? 'person' : 'person-outline';
+                    }
+
+                    // You can return any component that you like here!
+                    return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: '#4169E1',
+                tabBarInactiveTintColor: 'gray',
+            })}
+
+        >
+            <Tab.Screen name='Home' component={Home} options={{ headerShown: false, gestureEnabled: false }} />
+            <Tab.Screen name='Settings' component={Settings} options={{ headerShown: false, gestureEnabled: false }} />
+            <Tab.Screen name='Profile' component={Profile} options={{ headerShown: false, gestureEnabled: false }} />
+        </Tab.Navigator>
     );
 };
-
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-        backgroundColor: '#2196F3',
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-});

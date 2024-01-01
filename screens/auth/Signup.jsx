@@ -1,6 +1,6 @@
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium } from "@expo-google-fonts/poppins";
 import { useState } from "react";
-import { ActivityIndicator, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
@@ -35,20 +35,20 @@ export default function Signup({ navigation }) {
 
     const checkUsernameAvailability = async (username) => {
         // Query the database to check if the username already exists
-        const { data, error } = await supabase
+        const { data: users, error } = await supabase
             .from('users')
-            .select('id')
+            .select('username')
             .eq('username', username);
 
         // If data is returned, the username is taken
         // If error occurs, handle the error
-        return { isAvailable: !data || data.length === 0, error };
+        return { isAvailable: !users || users.length === 0, error };
     };
 
     async function signupUser() {
         // Regular expression for validating an Email
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        const { isAvailable, error } = await checkUsernameAvailability(username);
+        const { isAvailable, error: usernameError } = await checkUsernameAvailability(username);
 
         if (email === '') {
             setError({
@@ -75,7 +75,7 @@ export default function Signup({ navigation }) {
                 type: 'Error',
                 message: 'Enter a valid email'
             })
-        } else if (error) {
+        } else if (!isAvailable) {
             setError({
                 type: 'Error',
                 message: 'Username is already taken'
@@ -147,7 +147,7 @@ export default function Signup({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeAreaView>
-                <View className='p-6'>
+                <ScrollView className='p-6'>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon
                             name="arrowleft"
@@ -248,7 +248,7 @@ export default function Signup({ navigation }) {
                             <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#4169E1]'>Log In</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </ScrollView>
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )
