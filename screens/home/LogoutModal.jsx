@@ -41,7 +41,7 @@ export default function LogoutModal({ isVisible, toggleModal }) {
 
     return (
         <Modal animationType="fade" visible={isVisible} transparent={true}>
-            <View className='flex-1 bg-[#80808050] items-center justify-center'>
+            <View className='flex-1 bg-[#80808090] items-center justify-center'>
                 <View className='bg-white p-8 rounded-[18px] shadow-lg'>
                     <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1e1e1e] text-base mb-4'>Are you sure you want to Logout?</Text>
                     <View className='border-b-[2px] border-[#dfe0e1]'></View>
@@ -50,7 +50,7 @@ export default function LogoutModal({ isVisible, toggleModal }) {
                             <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Cancel</Text>
                         </Pressable>
                         <Pressable onPress={logout} className='flex-1 bg-[#F84343] flex items-center w-full py-3 rounded-xl ml-4'>
-                            {loading ? <ActivityIndicator size={'small'} color={'#ffffff'} /> : <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Logout</Text>}
+                            {loading ? <ActivityIndicator size='small' color={'#ffffff'} /> : <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Logout</Text>}
                         </Pressable>
                     </View>
                 </View>

@@ -5,6 +5,7 @@ import { supabase } from '../../utils/supabase';
 import { useGeneralAppContext } from '../../utils/useGeneralAppContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LogoutModal from "./LogoutModal";
+import ChooseCard from "./cards/ChooseCard";
 
 export default function Home({ navigation }) {
 
@@ -70,7 +71,7 @@ export default function Home({ navigation }) {
                 <View className='h-screen flex items-center justify-center'>
                     <ActivityIndicator size="large" color="#4169E1" />
                 </View> :
-                <View className='p-6'>
+                <View className='p-6 flex-grow flex flex-col'>
                     <View>
                         <View className='mb-4 flex flex-row gap-4 items-center'>
                             <Pressable onPress={() => setShowLogoutModal(true)} className='w-8 h-8 flex items-center justify-center rounded-full bg-[#4169E1]'>
@@ -80,6 +81,7 @@ export default function Home({ navigation }) {
                         </View>
                         <View className='border-b-[2px] border-[#dfe0e1]'></View>
                     </View>
+                    <ChooseCard />
                     <LogoutModal isVisible={showLogoutModal} toggleModal={setShowLogoutModal} />
                 </View>
             }

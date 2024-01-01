@@ -88,15 +88,15 @@ export default function Signup({ navigation }) {
                     password: password
                 })
                 const user = data
-                const userId = data.user.id
-                const userEmail = data.user.email
-
+                const userId = data?.user?.id
+                const userEmail = data?.user?.email
                 if (error) {
                     setError({
                         type: 'Error',
                         message: error.message
                     })
-                } else {
+                } else if (data) {
+
                     const { data, error } = await supabase
                         .from('users')
                         .upsert([

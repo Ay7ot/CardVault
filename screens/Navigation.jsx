@@ -16,16 +16,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
- 
+
     const { session, user, isNewUser } = useGeneralAppContext()
     const [loading, setLoading] = useState(true)
     const [isUserAllowed, setIsUserAllowed] = useState(false)
 
-    useEffect(() => {
-        const expirationTime = session?.expires_at;
-        const currentTimestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+    const expirationTime = session?.expires_at;
+    const currentTimestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
-        const hasExpired = currentTimestamp >= expirationTime;
+    const hasExpired = currentTimestamp >= expirationTime;
+
+    useEffect(() => {
 
         async function removeUserInfo() {
             try {
@@ -36,14 +37,14 @@ export default function Navigation() {
         }
 
         async function getUserInfo() {
-            if (session && !hasExpired) {
+            if (session && !hasExpired && user) {
                 setTimeout(() => {
                     setIsUserAllowed(true);
                     setLoading(false)
-                }, 3000)
+                }, 2000)
             } else {
                 try {
-                    removeUserInfo()
+                    await removeUserInfo()
                 } catch (error) {
                     console.error(error)
                 } finally {
@@ -55,6 +56,8 @@ export default function Navigation() {
 
         getUserInfo()
     }, [session, user])
+
+    console.log(loading)
 
     if (loading) {
         return <LoadPage />
