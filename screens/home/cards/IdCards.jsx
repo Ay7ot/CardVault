@@ -37,6 +37,30 @@ export default function IdCards() {
 
     const navigation = useNavigation()
 
+    const channels = supabase.channel('custom-all-channel')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'id_cards' },
+            (payload) => {
+                console.log('Change received!', payload)
+                const { new: newCard } = payload
+
+                const newCards = idcards.map(card => {
+                    if (card.id === newCard.id) {
+                        return {
+                            ...newCard
+                        }
+                    }
+                    return card
+                })
+                console.log(newCards)
+
+                setIdCards(newCards)
+
+            }
+        )
+        .subscribe()
+
     if (!fontsLoaded && !fontsError) {
         return null;
     }
@@ -49,7 +73,7 @@ export default function IdCards() {
                 </View> :
                 idcards.length > 0 ?
                     <View className=' mb-[150px]'>
-                        <TouchableOpacity onPress={()=>navigation.navigate('Add_Id_Card')} className='bg-[#4169E1] flex items-center py-4 mb-4 rounded-xl mt-8'>
+                        <TouchableOpacity onPress={() => navigation.navigate('Add_Id_Card')} className='bg-[#4169E1] flex items-center py-4 mb-4 rounded-xl mt-8'>
                             <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Add Card</Text>
                         </TouchableOpacity>
                         <ScrollView className='mb-[200px]'>

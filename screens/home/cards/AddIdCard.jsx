@@ -140,6 +140,7 @@ export default function AddIdCard() {
         return null;
     }
 
+
     return (
         <View className='flex'>
             {loading ?
