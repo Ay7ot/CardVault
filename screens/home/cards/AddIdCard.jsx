@@ -133,6 +133,7 @@ export default function AddIdCard() {
 
         setTimeout(() => {
             setError({ type: '', message: '' })
+            navigation.goBack()
         }, 3000)
     }
 

@@ -37,25 +37,32 @@ export default function IdCards() {
 
     const navigation = useNavigation()
 
-    const channels = supabase.channel('custom-all-channel')
+    const channels = supabase.channel('custom-all-channel-for-Id-cards-table')
         .on(
             'postgres_changes',
             { event: '*', schema: 'public', table: 'id_cards' },
             (payload) => {
                 console.log('Change received!', payload)
-                const { new: newCard } = payload
+                const { new: newCard, old: oldCard } = payload
 
-                const newCards = idcards.map(card => {
-                    if (card.id === newCard.id) {
-                        return {
-                            ...newCard
-                        }
-                    }
-                    return card
-                })
-                console.log(newCards)
-
-                setIdCards(newCards)
+                let newCards;
+                const findCard = idcards.find(card => card.id === newCard.id)
+                console.log(findCard)
+                if (findCard && payload.eventType === 'UPDATE') {
+                    setIdCards((prevCards) => {
+                        return prevCards.map(card => {
+                            if (card.id === newCard.id) {
+                                return {
+                                    ...newCard
+                                }
+                            } else return card
+                        })
+                    })
+                } else if (!findCard && payload.eventType === 'INSERT') {
+                    setIdCards((prevcards) => [...prevcards, newCard])
+                } else if (payload.eventType === 'DELETE') {
+                    setIdCards(prevCards => prevCards.filter((card) => card.id !== oldCard.id))
+                }
 
             }
         )
