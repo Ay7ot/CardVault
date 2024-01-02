@@ -12,6 +12,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useGeneralAppContext } from "../utils/useGeneralAppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AddIdCard from "./home/cards/AddIdCard";
+import AddDebitCard from "./home/cards/AddDebitCard";
+import AddDriversLicense from "./home/cards/AddDriversLicense";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +41,7 @@ export default function Navigation() {
 
         async function getUserInfo() {
             if (session && !hasExpired && user) {
+                setLoading(true)
                 setTimeout(() => {
                     setIsUserAllowed(true);
                     setLoading(false)
@@ -56,8 +60,6 @@ export default function Navigation() {
 
         getUserInfo()
     }, [session, user])
-
-    console.log(loading)
 
     if (loading) {
         return <LoadPage />
@@ -126,6 +128,21 @@ export default function Navigation() {
                             name="Onboarding3"
                             component={Onboarding3}
                             options={{ headerShown: false, gestureEnabled: false }}
+                        />
+                        <Stack.Screen
+                            name="Add_Id_Card"
+                            component={AddIdCard}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Add_Debit_Card"
+                            component={AddDebitCard}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Add_Drivers_License"
+                            component={AddDriversLicense}
+                            options={{ headerShown: false }}
                         />
                     </>)
                 }

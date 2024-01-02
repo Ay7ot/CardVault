@@ -1,6 +1,6 @@
 import { useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium } from "@expo-google-fonts/poppins";
 import { useState } from "react";
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
@@ -147,88 +147,89 @@ export default function Signup({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeAreaView>
-                <ScrollView className='p-6'>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icon
-                            name="arrowleft"
-                            size={24}
-                        />
-                    </TouchableOpacity>
-                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[#1E1E1E] mt-8 text-[24px]'>Sign Up</Text>
-                    <View className='mt-8'>
-                        <View className=''>
-                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Email</Text>
-                            <TextInput
-                                placeholder="Enter your email address"
-                                value={email}
-                                style={{ fontFamily: 'Poppins_400Regular' }}
-                                onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, email: text }))}
-                                keyboardType="email-address"
-                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
+                <KeyboardAvoidingView>
+                    <ScrollView className='p-6'>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Icon
+                                name="arrowleft"
+                                size={24}
                             />
-                        </View>
-                        <View className='mt-8'>
-                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Email</Text>
-                            <TextInput
-                                placeholder="Pick a username"
-                                value={username}
-                                style={{ fontFamily: 'Poppins_400Regular' }}
-                                onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, username: text }))}
-                                className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
-                            />
-                        </View>
-                        <View className='mt-8 '>
-                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Password</Text>
-                            <View className='flex flex-row items-center relative'>
-                                <TextInput
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, password: text }))}
-                                    secureTextEntry={showPassword ? false : true}
-                                    style={{ fontFamily: 'Poppins_400Regular' }}
-                                    className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
-                                />
-                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-4 bottom-3'>
-                                    <FaIcon
-                                        name={showPassword ? 'eye' : 'eye-slash'}
-                                        size={20}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <View className='mt-8'>
-                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Confirm Password</Text>
-                            <View className='flex flex-row items-center relative'>
-                                <TextInput
-                                    placeholder="Confirm your password"
-                                    value={passwordConfirm}
-                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, passwordConfirm: text }))}
-                                    secureTextEntry={showPasswordConfirm ? false : true}
-                                    style={{ fontFamily: 'Poppins_400Regular' }}
-                                    className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
-                                />
-                                <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPasswordConfirm)} className='absolute right-4 bottom-3'>
-                                    <FaIcon
-                                        name={showPassword ? 'eye' : 'eye-slash'}
-                                        size={20}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <View className={`w-full p-3 rounded-md mt-8 border-[1px] border-[#b2afaf] bg-red-400 ${error.message === '' ? 'hidden' : ''}`}>
-                            <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>{error.message}</Text>
-                        </View>
-                    </View>
-                    <View className='mt-20'>
-                        <TouchableOpacity className='mt-12 w-full' onPress={signupUser} disabled={loading}>
-                            <View className='bg-[#4169E1] py-[18px] flex items-center rounded-xl'>
-                                {loading ?
-                                    <ActivityIndicator size="small" color="#ffffff" /> :
-                                    <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#ffffff] text-sm'>Signup</Text>
-                                }
-                            </View>
                         </TouchableOpacity>
-                        {/* <View className='flex flex-row justify-between items-center py-8 gap-4'>
+                        <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[#1E1E1E] mt-8 text-[24px]'>Sign Up</Text>
+                        <View className='mt-8'>
+                            <View className=''>
+                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Email</Text>
+                                <TextInput
+                                    placeholder="Enter your email address"
+                                    value={email}
+                                    style={{ fontFamily: 'Poppins_400Regular' }}
+                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, email: text }))}
+                                    keyboardType="email-address"
+                                    className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
+                                />
+                            </View>
+                            <View className='mt-8'>
+                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Email</Text>
+                                <TextInput
+                                    placeholder="Pick a username"
+                                    value={username}
+                                    style={{ fontFamily: 'Poppins_400Regular' }}
+                                    onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, username: text }))}
+                                    className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
+                                />
+                            </View>
+                            <View className='mt-8 '>
+                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Password</Text>
+                                <View className='flex flex-row items-center relative'>
+                                    <TextInput
+                                        placeholder="Enter your password"
+                                        value={password}
+                                        onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, password: text }))}
+                                        secureTextEntry={showPassword ? false : true}
+                                        style={{ fontFamily: 'Poppins_400Regular' }}
+                                        className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
+                                    />
+                                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-4 bottom-3'>
+                                        <FaIcon
+                                            name={showPassword ? 'eye' : 'eye-slash'}
+                                            size={20}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View className='mt-8'>
+                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Confirm Password</Text>
+                                <View className='flex flex-row items-center relative'>
+                                    <TextInput
+                                        placeholder="Confirm your password"
+                                        value={passwordConfirm}
+                                        onChangeText={text => setUserInfo((prevInfo) => ({ ...prevInfo, passwordConfirm: text }))}
+                                        secureTextEntry={showPasswordConfirm ? false : true}
+                                        style={{ fontFamily: 'Poppins_400Regular' }}
+                                        className='flex-1 bg-blue-300w-full rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[#000000]'
+                                    />
+                                    <TouchableOpacity onPress={() => setShowPasswordConfirm(!showPasswordConfirm)} className='absolute right-4 bottom-3'>
+                                        <FaIcon
+                                            name={showPassword ? 'eye' : 'eye-slash'}
+                                            size={20}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View className={`w-full p-3 rounded-md mt-8 border-[1px] border-[#b2afaf] bg-red-400 ${error.message === '' ? 'hidden' : ''}`}>
+                                <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>{error.message}</Text>
+                            </View>
+                        </View>
+                        <View className='mt-20'>
+                            <TouchableOpacity className='mt-12 w-full' onPress={signupUser} disabled={loading}>
+                                <View className='bg-[#4169E1] py-[18px] flex items-center rounded-xl'>
+                                    {loading ?
+                                        <ActivityIndicator size="small" color="#ffffff" /> :
+                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#ffffff] text-sm'>Signup</Text>
+                                    }
+                                </View>
+                            </TouchableOpacity>
+                            {/* <View className='flex flex-row justify-between items-center py-8 gap-4'>
                             <View className='flex-1 border-b-[1px] border-[#a7a9ab]'></View>
                             <Text className='text-[#a7a9ab]'>OR</Text>
                             <View className='flex-1 border-b-[1px] border-[#a7a9ab]'></View>
@@ -241,14 +242,15 @@ export default function Signup({ navigation }) {
                                 <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-[#1C1C1C] ml-2 text-sm'>Continue with Google</Text>
                             </View>
                         </TouchableOpacity> */}
-                    </View>
-                    <View className='flex flex-row items-center gap-1 justify-center mt-10'>
-                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#4169E1]'>Log In</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                        </View>
+                        <View className='flex flex-row items-center gap-1 justify-center mt-10'>
+                            <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>Already have an account?</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#4169E1]'>Log In</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )

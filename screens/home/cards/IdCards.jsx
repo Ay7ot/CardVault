@@ -5,6 +5,7 @@ import { useGeneralAppContext } from '../../../utils/useGeneralAppContext';
 import { supabase } from '../../../utils/supabase';
 import AddCard from './AddCard';
 import IdComponent from './IdComponent';
+import { useNavigation } from '@react-navigation/native';
 
 export default function IdCards() {
 
@@ -34,6 +35,8 @@ export default function IdCards() {
         fetchIdCards()
     }, [])
 
+    const navigation = useNavigation()
+
     if (!fontsLoaded && !fontsError) {
         return null;
     }
@@ -46,7 +49,7 @@ export default function IdCards() {
                 </View> :
                 idcards.length > 0 ?
                     <View className=' mb-[150px]'>
-                        <TouchableOpacity className='bg-[#4169E1] flex items-center py-4 mb-4 rounded-xl mt-8'>
+                        <TouchableOpacity onPress={()=>navigation.navigate('Add_Id_Card')} className='bg-[#4169E1] flex items-center py-4 mb-4 rounded-xl mt-8'>
                             <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Add Card</Text>
                         </TouchableOpacity>
                         <ScrollView className='mb-[200px]'>
@@ -60,7 +63,7 @@ export default function IdCards() {
                         </ScrollView>
                     </View> :
                     <View className='flex-1'>
-                        <AddCard />
+                        <AddCard card={'ID Card'} />
                     </View>
             }
         </View >

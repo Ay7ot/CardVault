@@ -46,7 +46,7 @@ export default function Home({ navigation }) {
                 const { data: users, error } = await supabase
                     .from('users')
                     .select('username')
-                    .eq('user_id', user.id);
+                    .eq('user_id', user?.id);
                 setUsername(users[0].username)
             } catch (error) {
                 console.error(error)
