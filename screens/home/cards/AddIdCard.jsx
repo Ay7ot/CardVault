@@ -35,6 +35,7 @@ export default function AddIdCard() {
     const [showNationalityModal, setShowNationalityModal] = useState(false)
     const [countries, setCountries] = useState([])
     const [loading, setLoading] = useState(false)
+    const [addCardLoadState, setAddCardLoadState] = useState(false)
     const [error, setError] = useState({
         type: '',
         message: ''
@@ -88,6 +89,7 @@ export default function AddIdCard() {
 
         if (firstnameValid && surnameValid && middle_nameValid && sexValid && nationalityValid && heightValid && ninValid && bloodGroupValid) {
 
+            setAddCardLoadState(true)
             const { data, error } = await supabase
                 .from('id_cards')
                 .insert([
@@ -107,12 +109,13 @@ export default function AddIdCard() {
                     },
                 ])
                 .select()
-            console.log(data, error)
+
             if (error) {
                 setError({ type: 'error', message: error.message })
+                setAddCardLoadState(false)
             } else {
                 setError({
-                    type: 'success', message: 'Successfully added Card'
+                    type: 'success', message: `Successfully added ${data[0].first_name}'s Card`
                 })
                 setIdInformation({
                     firstname: '',
@@ -127,6 +130,7 @@ export default function AddIdCard() {
                     nin: '',
                     nationality: ''
                 })
+                setAddCardLoadState(false)
             }
         }
 
@@ -368,7 +372,10 @@ export default function AddIdCard() {
                             </ScrollView>
                             {error.message !== '' && <Text style={{ fontFamily: 'Poppins_500Medium' }} className={`${error.type === 'error' ? 'text-red-500' : 'text-green-500'} my-4`}>{error.message}</Text>}
                             <TouchableOpacity onPress={uploadCardToDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
-                                <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Save Card</Text>
+                                {addCardLoadState ?
+                                    <ActivityIndicator size={'small'} color={'#ffffff'} /> :
+                                    <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Save Card</Text>
+                                }
                             </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>

@@ -6,6 +6,7 @@ import { supabase } from '../../../utils/supabase';
 import AddCard from './AddCard';
 import IdComponent from './IdComponent';
 import { useNavigation } from '@react-navigation/native';
+import AppleStyleSwipeableRow from './AppleStyleSwipable';
 
 export default function IdCards() {
 
@@ -47,7 +48,7 @@ export default function IdCards() {
 
                 let newCards;
                 const findCard = idcards.find(card => card.id === newCard.id)
-                console.log(findCard)
+
                 if (findCard && payload.eventType === 'UPDATE') {
                     setIdCards((prevCards) => {
                         return prevCards.map(card => {
@@ -86,8 +87,10 @@ export default function IdCards() {
                         <ScrollView className='mb-[200px]'>
                             {idcards.map((card) => {
                                 return (
-                                    <View key={card.id}>
-                                        <IdComponent card={card} />
+                                    <View key={card.id} className='mb-10 shadow-md'>
+                                        <AppleStyleSwipeableRow card={card}>
+                                            <IdComponent card={card} />
+                                        </AppleStyleSwipeableRow>
                                     </View>
                                 )
                             })}

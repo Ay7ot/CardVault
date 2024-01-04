@@ -1,8 +1,9 @@
 import { Image, ImageBackground, Text, View } from "react-native";
 
 export default function IdComponent({ card }) {
+    
     return (
-        <View className='bg-white px-6 py-4 rounded-xl shadow-lg mb-10'>
+        <View className='bg-white px-6 py-4 rounded-xl'>
             <ImageBackground source={require('../../../assets/image-57.png')} className='min-h-[300px]'>
                 <View className='flex flex-row gap-4 items-center'>
                     <Image
