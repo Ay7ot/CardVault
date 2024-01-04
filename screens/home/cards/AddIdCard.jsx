@@ -7,6 +7,7 @@ import axios from 'axios';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { useGeneralAppContext } from '../../../utils/useGeneralAppContext';
 import { supabase } from '../../../utils/supabase';
+import SuccessfulModal from './SuccessfulModal';
 
 export default function AddIdCard() {
 
@@ -35,6 +36,7 @@ export default function AddIdCard() {
     const [showNationalityModal, setShowNationalityModal] = useState(false)
     const [countries, setCountries] = useState([])
     const [loading, setLoading] = useState(false)
+    const [showSuccessful, setShowSuccessful] = useState(false)
     const [addCardLoadState, setAddCardLoadState] = useState(false)
     const [error, setError] = useState({
         type: '',
@@ -114,9 +116,7 @@ export default function AddIdCard() {
                 setError({ type: 'error', message: error.message })
                 setAddCardLoadState(false)
             } else {
-                setError({
-                    type: 'success', message: `Successfully added ${data[0].first_name}'s Card`
-                })
+                setShowSuccessful(true)
                 setIdInformation({
                     firstname: '',
                     surname: '',
@@ -172,7 +172,10 @@ export default function AddIdCard() {
                                 </Text>
                                 <View></View>
                             </View>
-                            <ScrollView className='mt-8 flex-grow h-full mb-6'>
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                className='mt-8 flex-grow h-full mb-6'
+                            >
                                 <View>
                                     <View className='flex flex-row gap-4'>
                                         <View className='flex-1'>
@@ -279,7 +282,10 @@ export default function AddIdCard() {
                                     <Modal animationType='fade' visible={showNationalityModal} transparent={true} onRequestClose={() => setShowNationalityModal(false)}>
                                         <View className='bg-transparent flex-1'>
                                             <TouchableWithoutFeedback onPress={() => setShowNationalityModal(false)}><View className='flex-1 bg-[#00000080]'></View></TouchableWithoutFeedback>
-                                            <ScrollView className='bg-white p-8 py-10 rounded-[24px] absolute bottom-0 h-[400px] shadow-lg w-full'>
+                                            <ScrollView
+                                                showsVerticalScrollIndicator={false}
+                                                className='bg-white p-8 py-10 rounded-[24px] absolute bottom-0 h-[400px] shadow-lg w-full'
+                                            >
                                                 <SafeAreaView className='mb-[80px]'>
                                                     {countries.sort().map((country, index) => {
                                                         return (
@@ -379,6 +385,7 @@ export default function AddIdCard() {
                             </TouchableOpacity>
                         </View>
                     </KeyboardAvoidingView>
+                    <SuccessfulModal isVisible={showSuccessful} />
                 </SafeAreaView>
             }
         </View>

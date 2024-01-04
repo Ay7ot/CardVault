@@ -84,7 +84,10 @@ export default function DebitCards() {
                         <TouchableOpacity onPress={() => navigation.navigate('Add_Debit_Card')} className='bg-[#4169E1] flex items-center py-4 mb-4 rounded-xl mt-8'>
                             <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Add Card</Text>
                         </TouchableOpacity>
-                        <ScrollView className='mb-[200px]'>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            className='mb-[200px]'
+                        >
                             {debitCards.map((card) => {
                                 return (
                                     <View key={card.id} className='mb-10  shadow-md'>

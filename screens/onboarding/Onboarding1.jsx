@@ -16,7 +16,7 @@ export default function Onboarding1({ navigation }) {
 
     return (
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <SafeAreaView className='flex-1 min-h-screen flex-col p-6'>
                 <View className='flex flex-row items-center z-[2] justify-between'>
                     <View></View>

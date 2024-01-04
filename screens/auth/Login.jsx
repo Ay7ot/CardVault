@@ -85,7 +85,7 @@ export default function Login({ navigation }) {
                     });
 
                     await AsyncStorage.setItem('user', JSON.stringify(data.user));
-                    
+
                 }
             } catch (error) {
                 console.error(error);
@@ -106,7 +106,7 @@ export default function Login({ navigation }) {
     return (
         <SafeAreaView>
             <KeyboardAvoidingView>
-                <ScrollView className='p-6'>
+                <ScrollView showsVerticalScrollIndicator={false} className='p-6'>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon
                             name="arrowleft"
