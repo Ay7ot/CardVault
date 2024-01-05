@@ -232,7 +232,7 @@ export default function AddIdCard() {
                                                         setIdInformation(prevInfo => ({ ...prevInfo, sex: 'Male' }))
                                                         setShowSexModal(false)
                                                     }}
-                                                    className='flex flex-row items-center p-4'
+                                                    className={`flex flex-row items-center p-4 ${sex === 'Male' ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                 >
                                                     <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                         <View className={`h-full w-full rounded-full bg-[#4169E1] ${sex === 'Male' ? '' : 'hidden'}`}></View>
@@ -244,7 +244,7 @@ export default function AddIdCard() {
                                                         setIdInformation(prevInfo => ({ ...prevInfo, sex: 'Female' }))
                                                         setShowSexModal(false)
                                                     }}
-                                                    className='flex flex-row items-center p-4'
+                                                    className={`flex flex-row items-center p-4 ${sex === 'Female' ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                 >
                                                     <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                         <View className={`h-full w-full rounded-full bg-[#4169E1] ${sex === 'Female' ? '' : 'hidden'}`}></View>
@@ -295,7 +295,7 @@ export default function AddIdCard() {
                                                                     setIdInformation(prevInfo => ({ ...prevInfo, nationality: country }))
                                                                     setShowNationalityModal(false)
                                                                 }}
-                                                                className='flex flex-row items-center p-4'
+                                                                className={`flex flex-row items-center p-4 ${nationality === country ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                             >
                                                                 <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                                     <View className={`h-full w-full rounded-full bg-[#4169E1] ${nationality === country ? '' : 'hidden'}`}></View>

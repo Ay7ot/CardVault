@@ -187,7 +187,7 @@ export default function AddDebitCard() {
                                                         setCardInformation(prevInfo => ({ ...prevInfo, card_type: 'VISA' }))
                                                         setShowCardType(false)
                                                     }}
-                                                    className='flex flex-row items-center p-4'
+                                                    className={`flex flex-row items-center p-4 ${card_type === 'VISA' ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                 >
                                                     <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                         <View className={`h-full w-full rounded-full bg-[#4169E1] ${card_type === 'VISA' ? '' : 'hidden'}`}></View>
@@ -199,7 +199,7 @@ export default function AddDebitCard() {
                                                         setCardInformation(prevInfo => ({ ...prevInfo, card_type: 'MASTERCARD' }))
                                                         setShowCardType(false)
                                                     }}
-                                                    className='flex flex-row items-center p-4'
+                                                    className={`flex flex-row items-center p-4 ${card_type === 'MASTERCARD' ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                 >
                                                     <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                         <View className={`h-full w-full rounded-full bg-[#4169E1] ${card_type === 'MASTERCARD' ? '' : 'hidden'}`}></View>
@@ -211,7 +211,7 @@ export default function AddDebitCard() {
                                                         setCardInformation(prevInfo => ({ ...prevInfo, card_type: 'VERVE' }))
                                                         setShowCardType(false)
                                                     }}
-                                                    className='flex flex-row items-center p-4'
+                                                    className={`flex flex-row items-center p-4 ${card_type === 'VERVE' ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                 >
                                                     <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                         <View className={`h-full w-full rounded-full bg-[#4169E1] ${card_type === 'VERVE' ? '' : 'hidden'}`}></View>
@@ -226,7 +226,7 @@ export default function AddDebitCard() {
                                 <View className='flex-1 mt-8'>
                                     <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Bank name</Text>
                                     <TouchableOpacity onPress={() => setShowBanks(true)} className='bg-transparent flex flex-row justify-between items-center rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'>
-                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className={`${card_type === '' ? 'text-[#bcbbbb]' : 'text-[#1E1E1E]'}`}>{`${bank_name === '' ? 'Choose bank' : `${bank_name}`}`}</Text>
+                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className={`${bank_name === '' ? 'text-[#bcbbbb]' : 'text-[#1E1E1E]'}`}>{`${bank_name === '' ? 'Choose bank' : `${bank_name}`}`}</Text>
                                         <Icon
                                             name='down'
                                             size={16}
@@ -245,7 +245,7 @@ export default function AddDebitCard() {
                                                                     setCardInformation(prevInfo => ({ ...prevInfo, bank_name: bank.name, bank_logo: bank.logo }))
                                                                     setShowBanks(false)
                                                                 }}
-                                                                className='flex flex-row items-center p-4'
+                                                                className={`flex flex-row items-center p-4 ${bank_name === bank.name ? 'bg-blue-300/20 rounded-xl' : ''}`}
                                                             >
                                                                 <View className='h-[24px] flex items-center p-1 w-[24px] border-[#4169E1] border-[1px] rounded-full'>
                                                                     <View className={`h-full w-full rounded-full bg-[#4169E1] ${bank_name === bank.name ? '' : 'hidden'}`}></View>

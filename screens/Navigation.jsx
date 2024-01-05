@@ -31,30 +31,24 @@ export default function Navigation() {
 
     useEffect(() => {
 
-        async function removeUserInfo() {
-            try {
-                await AsyncStorage.removeItem('user');
-            } catch (error) {
-                console.error(error)
-            }
-        }
+        // async function removeUserInfo() {
+        //     try {
+        //         await AsyncStorage.removeItem('user');
+        //     } catch (error) {
+        //         console.error(error)
+        //     }
+        // }
 
         async function getUserInfo() {
-            if (session && !hasExpired && user) {
+            if (session && !hasExpired) {
                 setLoading(true)
                 setTimeout(() => {
                     setIsUserAllowed(true);
                     setLoading(false)
                 }, 2000)
             } else {
-                try {
-                    await removeUserInfo()
-                } catch (error) {
-                    console.error(error)
-                } finally {
-                    setIsUserAllowed(false)
-                    setLoading(false)
-                }
+                setIsUserAllowed(false)
+                setLoading(false)
             }
         }
 
