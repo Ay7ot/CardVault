@@ -89,7 +89,8 @@ export default function AddDebitCard() {
                             card_type: card_type,
                             card_number: card_number,
                             expiry_date: expiry_date,
-                            bank_logo: bank_logo
+                            bank_logo: bank_logo,
+                            cvv: cvv
                         },
                     ])
                     .select()
@@ -266,6 +267,7 @@ export default function AddDebitCard() {
                                         placeholder="Enter card number"
                                         value={card_number}
                                         style={{ fontFamily: 'Poppins_400Regular' }}
+                                        keyboardType='numeric'
                                         onChangeText={text => setCardInformation((prevInfo) => ({ ...prevInfo, card_number: text }))}
                                         className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'
                                     />
@@ -277,6 +279,7 @@ export default function AddDebitCard() {
                                         placeholder="Enter the 3 digit number"
                                         value={cvv}
                                         style={{ fontFamily: 'Poppins_400Regular' }}
+                                        keyboardType='numeric'
                                         onChangeText={text => setCardInformation((prevInfo) => ({ ...prevInfo, cvv: text }))}
                                         className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'
                                     />

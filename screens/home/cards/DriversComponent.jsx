@@ -67,6 +67,16 @@ export default function IdComponent({ card }) {
                 </View>
                 <View className='flex-row justify-between'>
                     <View className='flex-row items-center pb-2 border-b-[1px] border-[#dddfe2]'>
+                        <Text className='text-blue-500'>Issuing State: </Text>
+                        <Text className='text-[#1E1E1E]'>{card.current_issuing_state}</Text>
+                    </View>
+                    <View className='flex-row items-center pb-2 border-b-[1px] border-[#dddfe2]'>
+                        <Text className='text-blue-500'>1st Issuing State: </Text>
+                        <Text className='text-[#1E1E1E]'>{card.first_issuing_state}</Text>
+                    </View>
+                </View>
+                <View className='flex-row justify-between'>
+                    <View className='flex-row items-center pb-2 border-b-[1px] border-[#dddfe2]'>
                         <Text className='text-blue-500'>Expiry Date: </Text>
                         <Text className='text-[#1E1E1E]'>{card.expiry_date}</Text>
                     </View>

@@ -327,6 +327,7 @@ export default function AddIdCard() {
                                         placeholder="Enter height"
                                         value={height}
                                         style={{ fontFamily: 'Poppins_400Regular' }}
+                                        keyboardType='decimal-pad'
                                         onChangeText={text => setIdInformation((prevInfo) => ({ ...prevInfo, height: text }))}
                                         className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'
                                     />
@@ -338,6 +339,7 @@ export default function AddIdCard() {
                                         placeholder="Enter NIN"
                                         value={nin}
                                         style={{ fontFamily: 'Poppins_400Regular' }}
+                                        keyboardType='numeric'
                                         onChangeText={text => setIdInformation((prevInfo) => ({ ...prevInfo, nin: text }))}
                                         className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'
                                     />

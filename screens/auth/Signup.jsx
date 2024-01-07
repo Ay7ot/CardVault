@@ -146,7 +146,7 @@ export default function Signup({ navigation }) {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior="padding">
                 <ScrollView showsVerticalScrollIndicator={false} className='p-6'>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon

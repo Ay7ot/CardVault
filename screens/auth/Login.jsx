@@ -105,7 +105,7 @@ export default function Login({ navigation }) {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior="padding">
                 <ScrollView showsVerticalScrollIndicator={false} className='p-6'>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon
@@ -113,7 +113,7 @@ export default function Login({ navigation }) {
                             size={24}
                         />
                     </TouchableOpacity>
-                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[#1E1E1E] mt-8 text-[24px]'>Reset Password</Text>
+                    <Text style={{ fontFamily: 'Poppins_600SemiBold' }} className='text-[#1E1E1E] mt-8 text-[24px]'>Welcome Back!</Text>
 
                     <View className='mt-8'>
                         <View className=''>
