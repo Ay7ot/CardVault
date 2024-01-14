@@ -9,17 +9,17 @@ import { useGeneralAppContext } from '../../../utils/useGeneralAppContext';
 import { supabase } from '../../../utils/supabase';
 import SuccessfulModal from './SuccessfulModal';
 
-export default function AddIdCard() {
+export default function AddIdCard({ navigation, route }) {
 
     let [fontsLoaded, fontsError] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium
     })
     const [idInformation, setIdInformation] = useState({
-        firstname: '',
+        first_name: '',
         surname: '',
         middle_name: '',
-        dob: new Date(),
+        date_of_birth: new Date(),
         issue_date: new Date(),
         expiry_date: new Date(),
         sex: '',
@@ -29,6 +29,7 @@ export default function AddIdCard() {
         nationality: ''
     })
     const { user } = useGeneralAppContext()
+    const [createOrUpdate, setCreateOrUpdate] = useState('')
     const [showSexModal, setShowSexModal] = useState(false)
     const [showDob, setShowDob] = useState(false)
     const [showExpiryDate, setShowExpiryDate] = useState(false)
@@ -42,8 +43,6 @@ export default function AddIdCard() {
         type: '',
         message: ''
     })
-
-    const navigation = useNavigation()
 
     useEffect(() => {
         async function getAllCountries() {
@@ -61,6 +60,21 @@ export default function AddIdCard() {
         }
 
         getAllCountries()
+        if (route.params.state) {
+            const idValues = route.params.state
+            console.log(idValues)
+            setIdInformation({
+                ...idValues,
+                date_of_birth: new Date(idValues.date_of_birth),
+                expiry_date: new Date(idValues.expiry_date),
+                issue_date: new Date(idValues.issue_date),
+                height: idValues.height.toString(),
+                nin: idValues.nin.toString()
+            })
+            setCreateOrUpdate('update')
+        } else {
+            setCreateOrUpdate('create')
+        }
     }, [])
 
     function runCheck(value, name) {
@@ -75,7 +89,7 @@ export default function AddIdCard() {
         }
     }
 
-    const { firstname, surname, middle_name, dob, issue_date, expiry_date, sex, height, blood_group, nin, nationality } = idInformation
+    const { first_name, surname, middle_name, date_of_birth, issue_date, expiry_date, sex, height, blood_group, nin, nationality } = idInformation
 
     async function uploadCardToDatabase() {
 
@@ -87,7 +101,7 @@ export default function AddIdCard() {
         const sexValid = runCheck('sex', sex)
         const middle_nameValid = runCheck('middle_name', middle_name)
         const surnameValid = runCheck('surname', surname)
-        const firstnameValid = runCheck('firstname', firstname)
+        const firstnameValid = runCheck('first_name', first_name)
 
         if (firstnameValid && surnameValid && middle_nameValid && sexValid && nationalityValid && heightValid && ninValid && bloodGroupValid) {
 
@@ -97,10 +111,10 @@ export default function AddIdCard() {
                 .insert([
                     {
                         user_id: user.id,
-                        first_name: firstname,
+                        first_name: first_name,
                         surname: surname,
                         middle_name: middle_name,
-                        date_of_birth: dob,
+                        date_of_birth: date_of_birth,
                         nationality: nationality,
                         issue_date: issue_date,
                         expiry_date: expiry_date,
@@ -118,10 +132,73 @@ export default function AddIdCard() {
             } else {
                 setShowSuccessful(true)
                 setIdInformation({
-                    firstname: '',
+                    first_name: '',
                     surname: '',
                     middle_name: '',
-                    dob: new Date(),
+                    date_of_birth: new Date(),
+                    issue_date: new Date(),
+                    expiry_date: new Date(),
+                    sex: '',
+                    height: '',
+                    blood_group: '',
+                    nin: '',
+                    nationality: ''
+                })
+                setAddCardLoadState(false)
+            }
+        }
+
+
+        setTimeout(() => {
+            setError({ type: '', message: '' })
+            navigation.goBack()
+        }, 3000)
+    }
+
+    async function updateCardOnDatabase() {
+        const heightValid = runCheck('height', height)
+        const ninValid = runCheck('nin', nin)
+        const bloodGroupValid = runCheck('blood_group', blood_group)
+        const nationalityValid = runCheck('nationality', nationality)
+        const sexValid = runCheck('sex', sex)
+        const middle_nameValid = runCheck('middle_name', middle_name)
+        const surnameValid = runCheck('surname', surname)
+        const firstnameValid = runCheck('first_name', first_name)
+
+        if (firstnameValid && surnameValid && middle_nameValid && sexValid && nationalityValid && heightValid && ninValid && bloodGroupValid) {
+
+            setAddCardLoadState(true)
+            const { data, error } = await supabase
+                .from('id_cards')
+                .update([
+                    {
+                        user_id: user.id,
+                        first_name: first_name,
+                        surname: surname,
+                        middle_name: middle_name,
+                        date_of_birth: date_of_birth,
+                        nationality: nationality,
+                        issue_date: issue_date,
+                        expiry_date: expiry_date,
+                        sex: sex,
+                        blood_group: blood_group,
+                        nin: nin,
+                        height: height
+                    },
+                ])
+                .eq('id', idInformation.id)
+                .select()
+
+            if (error) {
+                setError({ type: 'error', message: error.message })
+                setAddCardLoadState(false)
+            } else {
+                setShowSuccessful(true)
+                setIdInformation({
+                    first_name: '',
+                    surname: '',
+                    middle_name: '',
+                    date_of_birth: new Date(),
                     issue_date: new Date(),
                     expiry_date: new Date(),
                     sex: '',
@@ -182,9 +259,9 @@ export default function AddIdCard() {
                                             <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>First name</Text>
                                             <TextInput
                                                 placeholder="Enter First Name"
-                                                value={firstname}
+                                                value={first_name}
                                                 style={{ fontFamily: 'Poppins_400Regular' }}
-                                                onChangeText={text => setIdInformation((prevInfo) => ({ ...prevInfo, firstname: text }))}
+                                                onChangeText={text => setIdInformation((prevInfo) => ({ ...prevInfo, first_name: text }))}
                                                 className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'
                                             />
                                         </View>
@@ -259,13 +336,13 @@ export default function AddIdCard() {
                                 <View className='flex-1 mt-8'>
                                     <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Date of Birth</Text>
                                     <TouchableOpacity onPress={() => setShowDob(true)} className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'>
-                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>{dob.toLocaleDateString()}</Text>
+                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>{date_of_birth.toLocaleDateString()}</Text>
                                     </TouchableOpacity>
                                     {showDob &&
                                         <RNDateTimePicker
                                             mode='date'
-                                            value={dob}
-                                            onChange={(e, date) => setIdInformation((prevInfo) => ({ ...prevInfo, dob: date }))}
+                                            value={date_of_birth}
+                                            onChange={(e, date) => setIdInformation((prevInfo) => ({ ...prevInfo, date_of_birth: date }))}
                                         />
                                     }
                                 </View>
@@ -379,7 +456,7 @@ export default function AddIdCard() {
 
                             </ScrollView>
                             {error.message !== '' && <Text style={{ fontFamily: 'Poppins_500Medium' }} className={`${error.type === 'error' ? 'text-red-500' : 'text-green-500'} my-4`}>{error.message}</Text>}
-                            <TouchableOpacity onPress={uploadCardToDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
+                            <TouchableOpacity onPress={createOrUpdate === 'create' ? uploadCardToDatabase : updateCardOnDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
                                 {addCardLoadState ?
                                     <ActivityIndicator size={'small'} color={'#ffffff'} /> :
                                     <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Save Card</Text>

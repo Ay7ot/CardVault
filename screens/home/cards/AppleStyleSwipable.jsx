@@ -6,11 +6,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useFonts, Poppins_400Regular, Poppins_500Medium } from "@expo-google-fonts/poppins";
 import { LinearGradient } from 'expo-linear-gradient';
 import { supabase } from '../../../utils/supabase';
+import { useNavigation } from '@react-navigation/native';
 
 const AppleStyleSwipeableRow = ({ children, card, component }) => {
     const swipeableRef = useRef(null);
     const [modalVisibleRight, setModalVisibleRight] = React.useState(false);
     const [loading, setLoading] = useState(false)
+    const navigation = useNavigation()
     let [fontsLoaded, fontsError] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium
@@ -56,7 +58,14 @@ const AppleStyleSwipeableRow = ({ children, card, component }) => {
         if (direction === 'right') {
             setModalVisibleRight(true);
         } else if (direction === 'left') {
-
+            swipeableRef.current.close()
+            if (component === 'id_card') {
+                navigation.navigate('Add_Id_Card', { state: card })
+            } else if (component === 'debit_card') {
+                navigation.navigate('Add_Debit_Card', { state: card })
+            } else if (component === 'drivers_license') {
+                navigation.navigate('Add_Drivers_License', { state: card })
+            }
         }
     };
 

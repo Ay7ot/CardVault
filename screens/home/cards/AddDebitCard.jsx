@@ -7,16 +7,16 @@ import axios from 'axios';
 import { supabase } from '../../../utils/supabase';
 import SuccessfulModal from './SuccessfulModal';
 
-export default function AddDebitCard() {
+export default function AddDebitCard({ navigation, route }) {
 
     let [fontsLoaded, fontsError] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium
     })
+    const [createOrUpdate, setCreateOrUpdate] = useState('')
     const [loading, setLoading] = useState(false)
     const [addCardLoadState, setAddCardLoadState] = useState(false)
     const [banks, setBanks] = useState([])
-    const navigation = useNavigation()
     const [showCardType, setShowCardType] = useState(false)
     const [showBanks, setShowBanks] = useState(false)
     const [showSuccessful, setShowSuccessful] = useState(false)
@@ -63,6 +63,17 @@ export default function AddDebitCard() {
 
         getAllBanks()
 
+        if (route.params.state) {
+            const idValues = route.params.state
+            console.log(idValues)
+            setCardInformation({
+                ...idValues,
+
+            })
+            setCreateOrUpdate('update')
+        } else {
+            setCreateOrUpdate('create')
+        }
     }, [])
 
     const { full_name, bank_name, card_type, card_number, cvv, expiry_date, bank_logo } = cardInformation
@@ -93,6 +104,64 @@ export default function AddDebitCard() {
                             cvv: cvv
                         },
                     ])
+                    .select()
+
+                if (error) {
+                    setError({ type: 'error', message: error.message })
+                } else {
+                    setCardInformation({
+                        full_name: '',
+                        bank_name: '',
+                        card_type: '',
+                        card_number: '',
+                        cvv: '',
+                        expiry_date: '',
+                        bank_logo: ''
+                    })
+                    setShowSuccessful(true)
+                }
+            } catch (error) {
+                setError({ type: 'error', message: error.message })
+            } finally {
+                setAddCardLoadState(false)
+                setTimeout(() => {
+                    setError({ type: '', message: '' })
+                }, 3000)
+            }
+        } else {
+            setTimeout(() => {
+                setError({ type: '', message: '' })
+            }, 3000)
+        }
+    }
+
+    async function updateCardOnDatabase() {
+
+        const cvvValid = runCheck('cvv', cvv)
+        const expiryValid = runCheck('expiry_date', expiry_date)
+        const logoValid = runCheck('bank_logo', bank_logo)
+        const cardNumberValid = runCheck('card_number', card_number)
+        const cardTypeValid = runCheck('card_type', card_type)
+        const bankValid = runCheck('bank_name', bank_name)
+        const nameValid = runCheck('full_name', full_name)
+
+        if (nameValid && bankValid && cardTypeValid && cardNumberValid && expiryValid && logoValid && cvvValid) {
+            try {
+                setAddCardLoadState(true)
+                const { data, error } = await supabase
+                    .from('debit_cards')
+                    .update([
+                        {
+                            full_name: full_name,
+                            bank_name: bank_name,
+                            card_type: card_type,
+                            card_number: card_number,
+                            expiry_date: expiry_date,
+                            bank_logo: bank_logo,
+                            cvv: cvv
+                        },
+                    ])
+                    .eq('id', cardInformation.id)
                     .select()
 
                 if (error) {
@@ -298,7 +367,7 @@ export default function AddDebitCard() {
 
                             </ScrollView>
                             {error.type === 'error' && <Text style={{ fontFamily: 'Poppins_500Medium' }} className={`${error.type === 'error' ? 'text-red-500' : 'text-green-500'} my-4`}>{error.message}</Text>}
-                            <TouchableOpacity onPress={uploadCardToDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
+                            <TouchableOpacity onPress={createOrUpdate === 'create' ? uploadCardToDatabase : updateCardOnDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
                                 {addCardLoadState ?
                                     <ActivityIndicator size={'small'} color={'#ffffff'} /> :
                                     <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Save Card</Text>

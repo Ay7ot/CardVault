@@ -9,18 +9,18 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import SuccessfulModal from './SuccessfulModal';
 import { supabase } from '../../../utils/supabase';
 
-export default function AddDriversLicense() {
+export default function AddDriversLicense({ navigation, route }) {
 
     const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
     let [fontsLoaded, fontsError] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium
     })
+    const [createOrUpdate, setCreateOrUpdate] = useState('')
     const [showSuccessful, setShowSuccessful] = useState(false)
     const [loading, setLoading] = useState(false)
     const [states, setStates] = useState([])
     const [addCardLoadState, setAddCardLoadState] = useState(false)
-    const navigation = useNavigation()
     const [showCurrentIssuingState, setShowCurrentIssuingState] = useState(false)
     const [showFirstIssuingState, setShowFirstIssuingState] = useState(false)
     const [showSexModal, setShowSexModal] = useState(false)
@@ -33,7 +33,7 @@ export default function AddDriversLicense() {
     const [licenseInformation, setLicenseInformation] = useState({
         full_name: '',
         sex: '',
-        dob: new Date(),
+        date_of_birth: new Date(),
         address: '',
         height: '',
         blood_group: '',
@@ -68,6 +68,25 @@ export default function AddDriversLicense() {
         }
 
         getStates()
+
+        if (route.params.state) {
+            const idValues = route.params.state
+            console.log(idValues)
+            setLicenseInformation({
+                ...idValues,
+                date_of_birth: new Date(idValues.date_of_birth),
+                expiry_date: new Date(idValues.expiry_date),
+                issue_date: new Date(idValues.issue_date),
+                first_issue_date: new Date(idValues.first_issue_date),
+                license_class: idValues.class,
+                renewals: idValues.renewals.toString(),
+                replacements: idValues.replacements.toString(),
+                height: idValues.height.toString()
+            })
+            setCreateOrUpdate('update')
+        } else {
+            setCreateOrUpdate('create')
+        }
     }, [])
 
     function capitalizeWords(str) {
@@ -91,7 +110,7 @@ export default function AddDriversLicense() {
         return true;
     }
 
-    const { license_number, car_type, full_name, dob, address, sex, height, blood_group, first_issue_date, issue_date, first_issuing_state, license_class, current_issuing_state, expiry_date, facial_marks, glasses, replacements, renewals, endorsments, next_of_kin_number } = licenseInformation
+    const { license_number, car_type, full_name, date_of_birth, address, sex, height, blood_group, first_issue_date, issue_date, first_issuing_state, license_class, current_issuing_state, expiry_date, facial_marks, glasses, replacements, renewals, endorsments, next_of_kin_number } = licenseInformation
 
     async function uploadCardToDatabase() {
         runCheck(licenseInformation)
@@ -106,7 +125,7 @@ export default function AddDriversLicense() {
                         {
                             full_name: full_name,
                             sex: sex,
-                            date_of_birth: dob,
+                            date_of_birth: date_of_birth,
                             address: address,
                             height: height,
                             blood_group: blood_group,
@@ -126,6 +145,59 @@ export default function AddDriversLicense() {
                             endorsments: endorsments
                         }
                     ])
+                    .select()
+
+                if (error) {
+                    setError({ type: 'error', message: error.message })
+                } else {
+                    setShowSuccessful(true)
+                }
+            } catch (error) {
+                setError({ type: 'error', message: error.message })
+            } finally {
+                setAddCardLoadState(false)
+            }
+        }
+
+        setTimeout(() => {
+            setError({ type: '', message: '' })
+        }, 3000)
+    }
+
+    async function updateCardOnDatabase() {
+        runCheck(licenseInformation)
+
+        if (runCheck(licenseInformation)) {
+            setAddCardLoadState(true)
+            try {
+
+                const { data, error } = await supabase
+                    .from('drivers_licenses')
+                    .update([
+                        {
+                            full_name: full_name,
+                            sex: sex,
+                            date_of_birth: date_of_birth,
+                            address: address,
+                            height: height,
+                            blood_group: blood_group,
+                            issue_date: issue_date,
+                            expiry_date: expiry_date,
+                            first_issue_date: first_issue_date,
+                            current_issuing_state: current_issuing_state,
+                            first_issuing_state: first_issuing_state,
+                            license_number: license_number,
+                            next_of_kin_number: next_of_kin_number,
+                            facial_marks: facial_marks,
+                            glasses: glasses,
+                            car_type: car_type,
+                            class: license_class,
+                            renewals: renewals,
+                            replacements: replacements,
+                            endorsments: endorsments
+                        }
+                    ])
+                    .eq('id', licenseInformation.id)
                     .select()
 
                 if (error) {
@@ -235,13 +307,13 @@ export default function AddDriversLicense() {
                                 <View className='flex-1 mt-8'>
                                     <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-sm text-[#1E1E1E]'>Date of Birth</Text>
                                     <TouchableOpacity onPress={() => setShowDob(true)} className='bg-transparent rounded-lg border-[1px] mt-2 border-[#E0E0E0] py-3 px-4 focus:border-[1px] focus:border-[#4169E1]'>
-                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>{dob.toLocaleDateString()}</Text>
+                                        <Text style={{ fontFamily: 'Poppins_400Regular' }} className='text-[#1E1E1E]'>{date_of_birth.toLocaleDateString()}</Text>
                                     </TouchableOpacity>
                                     {showDob &&
                                         <RNDateTimePicker
                                             mode='date'
-                                            value={dob}
-                                            onChange={(e, date) => setLicenseInformation((prevInfo) => ({ ...prevInfo, dob: date }))}
+                                            value={date_of_birth}
+                                            onChange={(e, date) => setLicenseInformation((prevInfo) => ({ ...prevInfo, date_of_birth: date }))}
                                         />
                                     }
                                 </View>
@@ -578,7 +650,7 @@ export default function AddDriversLicense() {
 
                             </ScrollView>
                             {error.message !== '' && <Text style={{ fontFamily: 'Poppins_500Medium' }} className={`${error.type === 'error' ? 'text-red-500' : 'text-green-500'} my-4`}>{error.message}</Text>}
-                            <TouchableOpacity onPress={uploadCardToDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
+                            <TouchableOpacity onPress={createOrUpdate === 'create' ? uploadCardToDatabase : updateCardOnDatabase} className='bg-[#4169E1] py-4 mt-auto flex items-center rounded-xl'>
                                 {addCardLoadState ?
                                     <ActivityIndicator size={'small'} color={'#ffffff'} /> :
                                     <Text style={{ fontFamily: 'Poppins_500Medium' }} className='text-white'>Save Card</Text>
