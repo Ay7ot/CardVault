@@ -15,8 +15,7 @@ export default function Home({ navigation }) {
         Poppins_500Medium
     })
 
-    const { generalDispatch, user } = useGeneralAppContext()
-    const [username, setUsername] = useState('')
+    const { generalDispatch, user, username } = useGeneralAppContext()
     const [loading, setLoading] = useState(false)
     const [showLogoutModal, setShowLogoutModal] = useState(false)
 
@@ -47,7 +46,13 @@ export default function Home({ navigation }) {
                     .from('users')
                     .select('username')
                     .eq('user_id', user?.id);
-                setUsername(users[0].username)
+                (users[0].username)
+                generalDispatch({
+                    type: 'setUsername',
+                    payload: {
+                        usernamePayload: users[0].username
+                    }
+                })
             } catch (error) {
                 console.error(error)
             } finally {

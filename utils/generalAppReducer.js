@@ -15,6 +15,11 @@ export function generalAppReducer(state, action) {
         ...state,
         isNewUser: action.payload.isNewUserPayload,
       };
+    case "setUsername":
+      return {
+        ...state,
+        username: action.payload.usernamePayload,
+      };
     default:
       return state;
   }

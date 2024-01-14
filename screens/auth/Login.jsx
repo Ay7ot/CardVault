@@ -2,7 +2,6 @@ import { useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium } 
 import { useState } from "react";
 import { ActivityIndicator, Image, KeyboardAvoidingView, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import FaIcon from 'react-native-vector-icons/FontAwesome5'
 import { supabase } from "../../utils/supabase";
 import { useGeneralAppContext } from "../../utils/useGeneralAppContext";

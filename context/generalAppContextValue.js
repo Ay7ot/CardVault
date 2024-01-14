@@ -4,4 +4,5 @@ export const GeneralAppContext = createContext({
   session: null,
   user: null,
   isNewUser: false,
+  username: "",
 });

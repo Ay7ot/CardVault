@@ -60,8 +60,8 @@ export default function AddIdCard({ navigation, route }) {
         }
 
         getAllCountries()
-        if (route.params.state) {
-            const idValues = route.params.state
+        if (route.params?.state) {
+            const idValues = route.params?.state
             console.log(idValues)
             setIdInformation({
                 ...idValues,

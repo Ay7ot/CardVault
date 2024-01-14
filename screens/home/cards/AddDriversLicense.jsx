@@ -69,8 +69,8 @@ export default function AddDriversLicense({ navigation, route }) {
 
         getStates()
 
-        if (route.params.state) {
-            const idValues = route.params.state
+        if (route.params?.state) {
+            const idValues = route.params?.state
             console.log(idValues)
             setLicenseInformation({
                 ...idValues,

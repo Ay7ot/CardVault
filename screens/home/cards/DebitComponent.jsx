@@ -60,7 +60,7 @@ export default function DebitComponent({ card }) {
 
     return (
         <View className='bg-white rounded-xl p-4'>
-            <View className='h-[64px] flex max-w-[64px]'>
+            <View className='h-[64px] flex max-w-[64px] mb-4'>
                 <Image
                     resizeMode='contain'
                     className='w-full flex-1'

@@ -63,8 +63,8 @@ export default function AddDebitCard({ navigation, route }) {
 
         getAllBanks()
 
-        if (route.params.state) {
-            const idValues = route.params.state
+        if (route.params?.state) {
+            const idValues = route.params?.state
             console.log(idValues)
             setCardInformation({
                 ...idValues,
