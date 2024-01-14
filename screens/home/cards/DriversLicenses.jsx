@@ -92,7 +92,7 @@ export default function DriversLicenses() {
                             {driversLicenses.map((card) => {
                                 return (
                                     <View key={card.id} className='mb-10 shadow-md'>
-                                        <AppleStyleSwipeableRow card={card}>
+                                        <AppleStyleSwipeableRow card={card} component='drivers_license'>
                                             <DriversComponent card={card} />
                                         </AppleStyleSwipeableRow>
                                     </View>

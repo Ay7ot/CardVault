@@ -91,7 +91,7 @@ export default function IdCards() {
                             {idcards.map((card) => {
                                 return (
                                     <View key={card.id} className='mb-10 shadow-md'>
-                                        <AppleStyleSwipeableRow card={card}>
+                                        <AppleStyleSwipeableRow card={card} component={'id_card'}>
                                             <IdComponent card={card} />
                                         </AppleStyleSwipeableRow>
                                     </View>

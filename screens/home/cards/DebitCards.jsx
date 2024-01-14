@@ -91,7 +91,7 @@ export default function DebitCards() {
                             {debitCards.map((card) => {
                                 return (
                                     <View key={card.id} className='mb-10  shadow-md'>
-                                        <AppleStyleSwipeableRow card={card} component={'debit_cards'}>
+                                        <AppleStyleSwipeableRow card={card} component={'debit_card'}>
                                             <DebitComponent card={card} />
                                         </AppleStyleSwipeableRow>
                                     </View>

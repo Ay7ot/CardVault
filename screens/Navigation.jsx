@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AddIdCard from "./home/cards/AddIdCard";
 import AddDebitCard from "./home/cards/AddDebitCard";
 import AddDriversLicense from "./home/cards/AddDriversLicense";
+import ChangePassword from "./settings/ChangePassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +41,7 @@ export default function Navigation() {
         // }
 
         async function getUserInfo() {
-            if (session && !hasExpired) {
+            if (session && hasExpired === false) {
                 setLoading(true)
                 setTimeout(() => {
                     setIsUserAllowed(true);
@@ -136,6 +137,11 @@ export default function Navigation() {
                         <Stack.Screen
                             name="Add_Drivers_License"
                             component={AddDriversLicense}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Change Password"
+                            component={ChangePassword}
                             options={{ headerShown: false }}
                         />
                     </>)
